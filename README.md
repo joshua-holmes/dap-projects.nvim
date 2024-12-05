@@ -15,7 +15,7 @@ Using packer or your favorite plugin manager:
 ```lua
 use "joshua-holmes/dap-projects.nvim"
 ...
-lua require("dap-projects").search_project_config()
+require("dap-projects").search_project_config()
 ```
 
 Install the plugin and then call it's `search_project_config` method at any point after its install, and after your global `nvim-dap` config is loaded.
@@ -54,8 +54,8 @@ In the above example, `dap-projects.nvim` would only overwrite the following pro
 
 A few notes for those that care about the details:
 1. It would overwrite *all* of `require("dap").adapters.gdb.args`, not just the specified properties within the `.args` table. This is because of how deeply it is nested. The design is intentional.
-2. It modifies the first item in the `require("dap").configurations.<lang>` array, even though arrays are not used in the `dap-projects.nvim` config. This is because `nvim-dap`'s `.configurations.<lang>` is set up as arrays, but I don't see a need to edit any of the tables except the first one in the array. So, I would rather keep the `dap-projects.nvim` config simple than true to how the `nvim-dap` config is set up.
-3. If `require("dap").configurations.python` table doesn't exist at the time of reading my `dap-projects.nvim` config file above, then one is created using that config file! Same if `require("dap").configurations` table is `nil`. No problems with *only* having project-level configs and leaving global `nvim-dap` config absent, in other words.
+2. It modifies the first item in the `require("dap").configurations.<lang>` array, even though arrays are not used in my `.dap.lua` file. This is because `nvim-dap` uses arrays in `.configurations.<lang>`, but I don't see a need to edit any of the tables except the first one in the array. So, I would rather keep the `.dap.lua` config simple than true to how the `nvim-dap` config is set up.
+3. If `require("dap").configurations.python` table doesn't exist at the time of reading my `.dap.lua` config file above, then one is created using the `.dap.lua` file! Same if `require("dap").configurations` table is `nil`. In other words, there is no problem with *only* having project-level configs and leaving global `nvim-dap` config absent.
 
 
 ## Configuration
