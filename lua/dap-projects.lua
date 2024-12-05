@@ -28,25 +28,38 @@ M.search_project_config = function()
 
     -- copy custom config to dap
     if config.adapters ~= nil then
-        for adapter, conf in pairs(config.adapters) do
-            if dap.adapters[adapter] ~= nil then
-                for key, val in pairs(conf) do
-                    dap.adapters[adapter][key] = val
+        if dap.adapters ~= nil then
+            for adapter, conf in pairs(config.adapters) do
+                if dap.adapters[adapter] ~= nil then
+                    for key, val in pairs(conf) do
+                        dap.adapters[adapter][key] = val
+                    end
+                else
+                    dap.adapters[adapter] = conf
                 end
-            else
-                dap.adapters[adapter] = conf
             end
+        else
+            dap.adapters = config.adapters
         end
     end
     if config.configurations ~= nil then
-        for lang, conf in pairs(config.configurations) do
-            if dap.configurations[lang] ~= nil then
-                for key, val in pairs(conf) do
-                    dap.configurations[lang][key] = val
+        if dap.configurations ~= nil then
+            for lang, conf in pairs(config.configurations) do
+                local tab = dap.configurations[lang]
+                local tab_len = 0
+                if tab ~= nil then
+                    for _, _ in pairs(tab) do tab_len = tab_len + 1 end
                 end
-            else
-                dap.configurations[lang] = conf
+                if tab_len > 0 then
+                    for key, val in pairs(conf) do
+                        dap.configurations[lang][1][key] = val
+                    end
+                else
+                    dap.configurations[lang] = { conf }
+                end
             end
+        else
+            dap.configurations = config.configurations
         end
     end
 end
