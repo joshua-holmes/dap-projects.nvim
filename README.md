@@ -61,9 +61,9 @@ A few notes for those that care about the details:
 ## Configuration
 
 You may modify where `dap-projects.nvim` looks for project-level config files by changing or appending to the plugin's `config_paths` array before calling `search_project_config()`. For example, this will ask `dap-projects.nvim` to only search for the `dappy.lua` file:
-```
-lua require('dap-projects').config_paths = {"./dappy.lua"}
-lua require('dap-projects').search_project_config()
+```lua
+require('dap-projects').config_paths = {"./dappy.lua"}
+require('dap-projects').search_project_config()
 ```
 
 Always provide the relative path to the actual config file.
