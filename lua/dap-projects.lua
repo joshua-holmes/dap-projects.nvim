@@ -42,10 +42,10 @@ M.search_project_config = function()
         for lang, conf in pairs(config.configurations) do
             if dap.configurations[lang] ~= nil then
                 for key, val in pairs(conf) do
-                    dap.adapters[lang][key] = val
+                    dap.configurations[lang][key] = val
                 end
             else
-                dap.adapters[lang] = conf
+                dap.configurations[lang] = conf
             end
         end
     end
