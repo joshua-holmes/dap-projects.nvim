@@ -17,15 +17,17 @@ M.search_project_config = function()
             break
         end
     end
-    local status_ok_config, config = pcall(require, project_config)
+
+    local status_ok_config = loadfile(project_config)
     if not status_ok_config then
         return
     end
+    local config = status_ok_config()
 
-    vim.notify("[dap-projects.nvim] Found custom configuration at." .. project_config, vim.log.levels.INFO, nil)
+    vim.notify("[dap-projects.nvim] Found custom configuration at " .. project_config, vim.log.levels.INFO, nil)
 
     -- copy custom config to dap
-    if dap.adapters ~= nil then
+    if config.adapters ~= nil then
         for adapter, conf in pairs(config.adapters) do
             if dap.adapters[adapter] ~= nil then
                 for key, val in pairs(conf) do
@@ -36,7 +38,7 @@ M.search_project_config = function()
             end
         end
     end
-    if dap.configurations ~= nil then
+    if config.configurations ~= nil then
         for lang, conf in pairs(config.configurations) do
             if dap.configurations[lang] ~= nil then
                 for key, val in pairs(conf) do
