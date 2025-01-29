@@ -1,12 +1,11 @@
 local M = {}
 
-M.config_paths = { "./.nvim/dap.lua", "./.dap.lua", "./dap.lua" }
+M.config_paths = {"./.nvim/dap.lua", "./.dap.lua", "./dap.lua"}
 
 M.search_project_config = function()
     local status_ok, dap = pcall(require, "dap")
     if not status_ok then
-        vim.notify("[dap-projects.nvim] Could not find nvim-dap, make sure you load it before dap-projects.nvim.",
-            vim.log.levels.ERROR, nil)
+        vim.notify("[dap-projects.nvim] Could not find nvim-dap, make sure you load it before dap-projects.nvim.", vim.log.levels.ERROR, nil)
         return
     end
     local project_config = ""
@@ -27,20 +26,6 @@ M.search_project_config = function()
 
     vim.notify("[dap-projects.nvim] Found custom configuration at " .. project_config, vim.log.levels.INFO, nil)
 
-    function dump(o)
-        if type(o) == 'table' then
-            local s = '{ '
-            for k, v in pairs(o) do
-                if type(k) ~= 'number' then k = '"' .. k .. '"' end
-                s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-            end
-            return s .. '} '
-        else
-            return tostring(o)
-        end
-    end
-
-    print(dump(dap.providers))
     -- copy custom config to dap
     if config.adapters ~= nil then
         if dap.adapters ~= nil then
