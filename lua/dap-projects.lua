@@ -41,6 +41,17 @@ M.search_project_config = function()
         else
             dap.adapters = config.adapters
         end
+        -- Apply overrides if necessary,
+        -- We assume there is only one entry,
+        -- since providing any more is useless
+        if config.override ~= nil then
+            local override_key = next(config.adapters, nil)
+            setmetatable(dap.adapters, {
+                __index = function(table, key)
+                    return rawget(table, override_key)
+                end
+            })
+        end
     end
     if config.configurations ~= nil then
         if dap.configurations ~= nil then
@@ -60,6 +71,15 @@ M.search_project_config = function()
             end
         else
             dap.configurations = config.configurations
+        end
+        -- Apply overrides if necessary
+        if config.override ~= nil then
+            local override_key = next(config.configurations, nil)
+            setmetatable(dap.configurations, {
+                __index = function(table, key)
+                    return rawget(table, override_key)
+                end
+            })
         end
     end
 end
